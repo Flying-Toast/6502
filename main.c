@@ -1,5 +1,7 @@
 #include <stdint.h>
 
+#define U16_FROM_HL(h, l) (((h) << 8) | (l))
+
 #define STATUS_NEGATIVE (1 << 7)
 #define STATUS_OVERFLOW (1 << 6)
 #define STATUS_BRK      (1 << 4)
@@ -22,8 +24,7 @@ struct c6502 {
 	// status
 	uint8_t p;
 
-	uint8_t pcl;
-	uint8_t pch;
+	uint16_t pc;
 
 	// stack
 	uint8_t s;
@@ -34,8 +35,7 @@ struct c6502 {
 void c6502_reset(struct c6502 *c)
 {
 	c->p |= STATUS_DECIMAL | STATUS_IRQBDIS;
-	c->pcl = c->mem[VEC_RESB_L];
-	c->pch = c->mem[VEC_RESB_H];
+	c->pc = U16_FROM_HL(c->mem[VEC_RESB_H], c->mem[VEC_RESB_L]);
 }
 
 int main(void)
