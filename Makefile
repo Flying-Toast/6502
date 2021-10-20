@@ -1,6 +1,6 @@
 OBJECTS=main.o
 CC=gcc
-CFLAGS=-O3
+CFLAGS=-O3 -Wall
 EXE=6502
 
 $(EXE): $(OBJECTS)
